@@ -1,8 +1,10 @@
 # website-operator
-// TODO(user): Add simple overview of use/purpose
+A simple implementation of a Website operator for demontrative purposes.
 
 ## Description
-// TODO(user): An in-depth paragraph about your project and overview of use
+For this demonstrative repo, the boilerplating is generated using [operator-sdk](https://github.com/operator-framework/operator-sdk).
+The operator implements a Website CRD that deploys an nginx Deployment and a ConfigMap, containing the servable index.html.
+Afterwards, whenever the contents of the ConfigMap change, the operator handles the update process for the Deployment to reflect the changes in served content.
 
 ## Getting Started
 
@@ -109,9 +111,6 @@ if you create webhooks, you need to use the above command with
 the '--force' flag and manually ensure that any custom configuration
 previously added to 'dist/chart/values.yaml' or 'dist/chart/manager/manager.yaml'
 is manually re-applied afterwards.
-
-## Contributing
-// TODO(user): Add detailed information on how you would like others to contribute to this project
 
 **NOTE:** Run `make help` for more information on all potential `make` targets
 
