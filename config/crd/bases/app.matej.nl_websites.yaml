@@ -1,0 +1,77 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: websites.app.matej.nl
+spec:
+  group: app.matej.nl
+  names:
+    kind: Website
+    listKind: WebsiteList
+    plural: websites
+    singular: website
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.readyReplicas
+      name: Ready
+      type: integer
+    - jsonPath: .status.url
+      name: URL
+      type: string
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Website is the Schema for the websites API.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: WebsiteSpec defines the desired state of Website.
+            properties:
+              message:
+                description: Message is rendered into index.html
+                minLength: 1
+                type: string
+              replicas:
+                default: 1
+                description: Replicas controls the nginx Deployment size
+                format: int32
+                minimum: 1
+                type: integer
+            required:
+            - message
+            type: object
+          status:
+            description: WebsiteStatus defines the observed state of Website.
+            properties:
+              readyReplicas:
+                description: ReadyReplicas mirrors the Deployment's ready replicas
+                format: int32
+                type: integer
+              url:
+                description: URL is the in-cluster DNS address of the Service
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
