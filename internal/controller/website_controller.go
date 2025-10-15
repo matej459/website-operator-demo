@@ -147,7 +147,7 @@ func (r *WebsiteReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 		if site.Spec.Replicas != nil {
 			dep.Spec.Replicas = site.Spec.Replicas
 		}
-		dep.Spec.Template.ObjectMeta.Labels = map[string]string{
+		dep.Spec.Template.Labels = map[string]string{
 			appLabelKey:  componentName,
 			instLabelKey: site.Name,
 		}
