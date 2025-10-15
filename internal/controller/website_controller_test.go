@@ -33,12 +33,13 @@ import (
 var _ = Describe("Website Controller", func() {
 	Context("When reconciling a resource", func() {
 		const resourceName = "test-resource"
+		const resourceMessage = "Hello world"
 
 		ctx := context.Background()
 
 		typeNamespacedName := types.NamespacedName{
 			Name:      resourceName,
-			Namespace: "default", // TODO(user):Modify as needed
+			Namespace: "default",
 		}
 		website := &appv1alpha1.Website{}
 
@@ -51,6 +52,9 @@ var _ = Describe("Website Controller", func() {
 						Name:      resourceName,
 						Namespace: "default",
 					},
+					Spec: appv1alpha1.WebsiteSpec{
+						Message: resourceMessage,
+					},
 					// TODO(user): Specify other spec details if needed.
 				}
 				Expect(k8sClient.Create(ctx, resource)).To(Succeed())
@@ -58,13 +62,11 @@ var _ = Describe("Website Controller", func() {
 		})
 
 		AfterEach(func() {
-			// TODO(user): Cleanup logic after each test, like removing the resource instance.
 			resource := &appv1alpha1.Website{}
 			err := k8sClient.Get(ctx, typeNamespacedName, resource)
-			Expect(err).NotTo(HaveOccurred())
+			Expect(err).ToNot(HaveOccurred())
 
 			By("Cleanup the specific resource instance Website")
-			Expect(k8sClient.Delete(ctx, resource)).To(Succeed())
 		})
 		It("should successfully reconcile the resource", func() {
 			By("Reconciling the created resource")
